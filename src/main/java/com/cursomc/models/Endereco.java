@@ -7,6 +7,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 public class Endereco {
 	@Id
@@ -19,6 +21,7 @@ public class Endereco {
 	private String cep;
 	
 	@ManyToOne
+	@JsonBackReference
 	@JoinColumn(name="cliente_id")
 	private Cliente cliente;
 	
@@ -37,7 +40,10 @@ public class Endereco {
 		this.bairro = bairro;
 		this.cep = cep;
 		this.cliente = cliente;
-		this.setCidade(cidade);
+		this.cidade = cidade;
+	}
+	
+	public Endereco() {
 	}
 
 
@@ -109,6 +115,8 @@ public class Endereco {
 	public final void setCliente(Cliente cliente) {
 		this.cliente = cliente;
 	}
+	
+	
 
 
 	@Override
