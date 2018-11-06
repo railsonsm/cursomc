@@ -6,17 +6,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cursomc.models.Cliente;
+import com.cursomc.models.Pedido;
 import com.cursomc.repositories.ClienteRepository;
+import com.cursomc.repositories.PedidoRepository;
 import com.cursomc.services.exception.ObjectNotFoundException;
 
 @Service
-public class ClienteService {
+public class PedidoService {
 	@Autowired
-	private ClienteRepository cRepository;
+	private PedidoRepository pedidoRepository;
 	
-	public Cliente buscar(Long id) {
-		Optional<Cliente> cliente = cRepository.findById(id);
-		return cliente.orElseThrow(()-> new ObjectNotFoundException(
+	public Pedido buscar(Long id) {
+		Optional<Pedido> pedido = pedidoRepository.findById(id);
+		return pedido.orElseThrow(()-> new ObjectNotFoundException(
 				"Objeto não encontrado! Id: " + id));
 	}
 }
