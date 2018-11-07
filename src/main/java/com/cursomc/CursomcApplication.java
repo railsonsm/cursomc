@@ -94,12 +94,16 @@ public class CursomcApplication implements CommandLineRunner {
 		Cliente cli1 = new Cliente(null, "Maria Silva", "maria@gmail.com", "05763252527", TipoCliente.PESSOAFISICA);
 		cli1.getTelefones().addAll(Arrays.asList("71982576778", "7133919350"));
 		
+		Cliente cli2 = new Cliente(null, "Railson Silva", "maria@gmail.com", "05763252527", TipoCliente.PESSOAJURIDICA);
+		cli2.getTelefones().addAll(Arrays.asList("71982576778", "7133919350"));
+		cli2.setId(3L);
+		
 		Endereco e1 = new Endereco(null, "Rua Flores", "300", "Apto 303", "Jardim", "38220834", cli1, c1);
 		Endereco e2 = new Endereco(null, "Avenida Matos", "105", "Apto 800", "Centro", "38220834", cli1, c2);
 		
 		cli1.getEnderecos().addAll(Arrays.asList(e1, e2));
 		
-		clienteRepository.saveAll(Arrays.asList(cli1));
+		clienteRepository.saveAll(Arrays.asList(cli1, cli2));
 		enderecoRepository.saveAll(Arrays.asList(e1,e2));
 		
 		SimpleDateFormat sds = new SimpleDateFormat("dd/MM/yyyy HH:mm");
