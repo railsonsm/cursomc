@@ -19,4 +19,8 @@ public class CategoriaService {
 		return categoria.orElseThrow(()-> new ObjectNotFoundException(
 				"Objeto não encontrado! Id: " + id));
 	}
+
+	public Categoria insert(Categoria categoria) {
+		return cRepository.save(categoria);
+	}
 }
