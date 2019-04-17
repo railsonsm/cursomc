@@ -7,12 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.cursomc.dto.CategoriaDTO;
 import com.cursomc.models.Categoria;
+import com.cursomc.models.Cliente;
 import com.cursomc.repositories.CategoriaRepository;
 import com.cursomc.services.exception.DataIntegretyException;
 import com.cursomc.services.exception.ObjectNotFoundException;
@@ -22,21 +22,24 @@ public class CategoriaService {
 	@Autowired
 	private CategoriaRepository cRepository;
 
-	public Categoria find(Long id) {
+	public Categoria find(Integer id) {
 		Optional<Categoria> categoria = cRepository.findById(id);
 		return categoria.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado! Id: " + id));
+	}
+	
+	public Categoria update(Categoria obj) {
+		Categoria categoria = find(obj.getId());
+		updateData(categoria, obj);
+		return cRepository.save(categoria);
 	}
 
 	public Categoria insert(Categoria categoria) {
 		return cRepository.save(categoria);
 	}
 
-	public Categoria update(Categoria categoria) {
-		find(categoria.getId());
-		return cRepository.save(categoria);
-	}
 
-	public void delete(Long id) {
+
+	public void delete(Integer id) {
 		try {
 			cRepository.delete(find(id));
 		} catch (DataIntegrityViolationException e) {
@@ -56,5 +59,9 @@ public class CategoriaService {
 	
 	public Categoria fromDTO(CategoriaDTO dto) {
 		return new Categoria(dto.getId(), dto.getNome());
+	}
+	
+	private void updateData(Categoria categoria, Categoria obj) {
+		categoria.setNome(obj.getNome());
 	}
 }

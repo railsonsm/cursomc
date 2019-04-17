@@ -12,17 +12,17 @@ import javax.persistence.InheritanceType;
 public abstract class AbstracModel {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private Long id;
+	private Integer id;
 
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
-	public AbstracModel(Long id) {
+	public AbstracModel(Integer id) {
 		super();
 		this.id = id;
 	}

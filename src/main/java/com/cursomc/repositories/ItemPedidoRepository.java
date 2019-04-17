@@ -7,6 +7,6 @@ import com.cursomc.models.Categoria;
 import com.cursomc.models.ItemPedido;
 
 @Repository
-public interface ItemPedidoRepository extends JpaRepository<ItemPedido, Long> {
+public interface ItemPedidoRepository extends JpaRepository<ItemPedido, Integer> {
 	
 }

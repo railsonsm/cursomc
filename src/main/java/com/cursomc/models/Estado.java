@@ -15,18 +15,18 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Estado implements Serializable{
-	private static final long serialVersionUID = 1L;
+	private static final Long serialVersionUID = 1L;
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long id;
+	private Integer id;
 	private String nome;
 	
 	@OneToMany(mappedBy="estado")
 	@JsonIgnore
 	private List<Cidade> cidades = new ArrayList<>();
 
-	public Estado(Long id, String nome) {
+	public Estado(Integer id, String nome) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -35,11 +35,11 @@ public class Estado implements Serializable{
 	public Estado() {
 	}
 
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

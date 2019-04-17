@@ -15,8 +15,8 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 public class Endereco {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long id;
-	private String longradouro;
+	private Integer id;
+	private String Integerradouro;
 	private String numero;
 	private String complemento;
 	private String bairro;
@@ -33,11 +33,11 @@ public class Endereco {
 	private Cidade cidade;
 
 
-	public Endereco(Long id, String longradouro, String numero, String complemento, String bairro, String cep,
+	public Endereco(Integer id, String Integerradouro, String numero, String complemento, String bairro, String cep,
 			Cliente cliente, Cidade cidade) {
 		super();
 		this.id = id;
-		this.longradouro = longradouro;
+		this.Integerradouro = Integerradouro;
 		this.numero = numero;
 		this.complemento = complemento;
 		this.bairro = bairro;
@@ -50,23 +50,23 @@ public class Endereco {
 	}
 
 
-	public final Long getId() {
+	public final Integer getId() {
 		return id;
 	}
 
 
-	public final void setId(Long id) {
+	public final void setId(Integer id) {
 		this.id = id;
 	}
 
 
-	public final String getLongradouro() {
-		return longradouro;
+	public final String getIntegerradouro() {
+		return Integerradouro;
 	}
 
 
-	public final void setLongradouro(String longradouro) {
-		this.longradouro = longradouro;
+	public final void setIntegerradouro(String Integerradouro) {
+		this.Integerradouro = Integerradouro;
 	}
 
 

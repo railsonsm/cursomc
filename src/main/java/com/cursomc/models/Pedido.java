@@ -20,11 +20,11 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class Pedido implements Serializable{
-	private static final long serialVersionUID = 1L;
+	private static final Long serialVersionUID = 1L;
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long id;
+	private Integer id;
 	
 	@JsonFormat(pattern="dd/MM/yyy HH:mm")
 	private Date instante;
@@ -52,7 +52,7 @@ public class Pedido implements Serializable{
 	
 	
 
-	public Pedido(Long id, Date instante, Cliente cliente, Endereco enderecoDeEntrega) {
+	public Pedido(Integer id, Date instante, Cliente cliente, Endereco enderecoDeEntrega) {
 		super();
 		this.id = id;
 		this.instante = instante;
@@ -96,11 +96,11 @@ public class Pedido implements Serializable{
 
 
 
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

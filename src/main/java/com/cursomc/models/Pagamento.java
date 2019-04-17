@@ -1,6 +1,7 @@
 package com.cursomc.models;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -17,10 +18,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 @Inheritance(strategy=InheritanceType.JOINED)
 public abstract class Pagamento implements Serializable{
-	private static final long serialVersionUID = 1L;
+	private static final Long serialVersionUID = 1L;
 	
 	@Id
-	private Long id;
+	private Integer id;
 	private Integer estado;
 	
 	@OneToOne
@@ -32,10 +33,10 @@ public abstract class Pagamento implements Serializable{
 	
 	
 
-	public Pagamento(Long id, EstadoPagamento estado, Pedido pedido) {
+	public Pagamento(Integer id, EstadoPagamento estado, Pedido pedido) {
 		super();
 		this.id = id;
-		this.estado = estado.getCod();
+		this.estado = (Objects.isNull(estado)) ? null : estado.getCod();
 		this.pedido = pedido;
 	}
 
@@ -43,11 +44,11 @@ public abstract class Pagamento implements Serializable{
 		super();
 	}
 
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

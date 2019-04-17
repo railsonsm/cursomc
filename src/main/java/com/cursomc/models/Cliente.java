@@ -4,8 +4,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -15,27 +17,28 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 import com.cursomc.models.enums.TipoCliente;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
-public class Cliente extends AbstracModel implements Serializable{
-	private static final long serialVersionUID = 1L;
-	
+public class Cliente extends AbstracModel implements Serializable {
+	private static final Long serialVersionUID = 1L;
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
 	private String nome;
 	private String email;
 	private String cpfOuCnpj;
 	private Integer tipo;
-	
-	@OneToMany(mappedBy="cliente")
+
+	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
 	private List<Endereco> enderecos = new ArrayList<>();
-	
+
 	@ElementCollection
-	@CollectionTable(name="telefone")
+	@CollectionTable(name = "telefone")
 	private Set<String> telefones = new HashSet<>();
-	
-	@OneToMany(mappedBy="cliente")
+
+	@OneToMany(mappedBy = "cliente")
 	@JsonIgnore
 	private List<Pedido> pedidos = new ArrayList<>();
 
@@ -43,17 +46,18 @@ public class Cliente extends AbstracModel implements Serializable{
 		super();
 	}
 
-	public Cliente(Long id, String nome, String email, String cpfOuCnpj, TipoCliente tipo) {
+	public Cliente(Integer id) {
+		this.id = id;
+	}
 	
-		
+	public Cliente(Integer id, String nome, String email, String cpfOuCnpj, TipoCliente tipo) {
+		this.id = id;
 		this.nome = nome;
 		this.email = email;
 		this.cpfOuCnpj = cpfOuCnpj;
-		this.tipo = tipo.getCod();
+		this.tipo = (Objects.isNull(tipo)) ? null : tipo.getCod();
 	}
-	
-	
-	
+
 	public List<Pedido> getPedidos() {
 		return pedidos;
 	}
@@ -61,8 +65,6 @@ public class Cliente extends AbstracModel implements Serializable{
 	public void setPedidos(List<Pedido> pedidos) {
 		this.pedidos = pedidos;
 	}
-
-	
 
 	public String getNome() {
 		return nome;
@@ -88,7 +90,6 @@ public class Cliente extends AbstracModel implements Serializable{
 		this.cpfOuCnpj = cpfOuCnpj;
 	}
 
-
 	public TipoCliente getTipo() {
 		return TipoCliente.toUnum(tipo);
 	}
@@ -113,11 +114,12 @@ public class Cliente extends AbstracModel implements Serializable{
 		this.telefones = telefones;
 	}
 
-	
-	
-	
-	
-	
-	
-	
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
 }

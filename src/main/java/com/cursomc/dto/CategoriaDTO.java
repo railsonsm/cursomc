@@ -8,7 +8,7 @@ import org.hibernate.validator.constraints.Length;
 import com.cursomc.models.Categoria;
 
 public class CategoriaDTO {
-	private Long id;
+	private Integer id;
 	
 	@NotBlank(message="Preenchimento obrigatório")
 	@Length(min=5,max=80, message="O tamanho deve ser entre 5 e 80 caracteres")
@@ -23,11 +23,11 @@ public class CategoriaDTO {
 		this.nome = categoria.getNome();
 	}
 
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
