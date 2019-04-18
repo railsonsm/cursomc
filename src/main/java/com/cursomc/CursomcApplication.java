@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.validation.DataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 
 import com.cursomc.models.Categoria;
 import com.cursomc.models.Cidade;
@@ -51,6 +53,11 @@ public class CursomcApplication implements CommandLineRunner {
 	private PagamentoRepository pagamentoRepository;
 	@Autowired
 	private ItemPedidoRepository itemPedidoRepository;
+	
+	@InitBinder
+    private void activateDirectFieldAccess(DataBinder dataBinder) {
+        dataBinder.initDirectFieldAccess();
+    }
 	
 	public static void main(String[] args) {
 		SpringApplication.run(CursomcApplication.class, args);

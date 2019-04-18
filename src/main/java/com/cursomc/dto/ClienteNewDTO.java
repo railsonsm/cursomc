@@ -2,21 +2,42 @@ package com.cursomc.dto;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+
+import org.hibernate.validator.constraints.Length;
+
+import com.cursomc.services.validation.CpnfOrCnpjValid;
+import com.cursomc.services.validation.ExistsEmail;
+
+@CpnfOrCnpjValid
 public class ClienteNewDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	@NotEmpty(message = "Preenchimento obrigatório")
+	@Length(min = 5, max = 10, message = "O tamanho deve ser entre 2 e 10 caracteres")
 	private String nome;
+
+	@Email(message = "Email Inválido")
+	@NotEmpty(message = "Preenchimento obrigatório")
+	@ExistsEmail
 	private String email;
+
 	private String cpfOuCnpj;
 	private Integer tipo;
 
+	@NotEmpty(message = "Preenchimento obrigatório")
 	private String logradouro;
+
 	private String numero;
 	private String complemento;
 	private String bairro;
+
+	@NotEmpty(message = "Preenchimento obrigatório")
 	private String cep;
 
+	@NotEmpty(message = "Preenchimento obrigatório")
 	private String telefone1;
 	private String telefone2;
 	private String telefone3;
@@ -58,8 +79,6 @@ public class ClienteNewDTO implements Serializable {
 	public void setTipo(Integer tipo) {
 		this.tipo = tipo;
 	}
-
-	
 
 	public String getLogradouro() {
 		return logradouro;
@@ -133,5 +152,4 @@ public class ClienteNewDTO implements Serializable {
 		this.cidadeId = cidadeId;
 	}
 
-	
 }
