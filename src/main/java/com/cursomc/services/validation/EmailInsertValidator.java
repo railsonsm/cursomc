@@ -22,11 +22,11 @@ public class EmailInsertValidator implements ConstraintValidator<ExistsEmail, St
 	}
 
 	@Override
-	public boolean isValid(String mano, ConstraintValidatorContext context) {
+	public boolean isValid(String email, ConstraintValidatorContext context) {
 
 		List<FieldMessage> list = new ArrayList<>();
 
-		if (!repo.existsByEmail(mano)) {
+		if (repo.existsByEmail(email)) {
 			list.add(new FieldMessage("email", "Email já existente"));
 		}
 
