@@ -20,7 +20,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class Pedido implements Serializable{
-	private static final Long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -37,7 +37,6 @@ public class Pedido implements Serializable{
 	
 	@ManyToOne
 	@JoinColumn(name="cliente_id")
-	@JsonManagedReference
 	private Cliente cliente;
 	
 	@ManyToOne

@@ -21,7 +21,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Cliente extends AbstracModel implements Serializable {
-	private static final Long serialVersionUID = 1L;
+
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

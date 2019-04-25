@@ -12,4 +12,6 @@ import com.cursomc.models.Produto;
 @Repository
 public interface ProdutoRepository extends JpaRepository<Produto, Integer> {
 	Page<Produto> findDistinctByNomeContainingAndCategoriasIn(String nome,java.util.List<Categoria> categorias,Pageable pageRequest);
+	
+	Produto findOneById(Integer id);
 }
