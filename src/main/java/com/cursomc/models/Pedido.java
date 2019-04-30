@@ -1,8 +1,11 @@
 package com.cursomc.models;
 
 import java.io.Serializable;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -165,6 +168,28 @@ public class Pedido implements Serializable{
 			return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+		StringBuilder builder = new StringBuilder();
+		builder.append("Pedido Numero: ");
+		builder.append(getId());
+		builder.append(", Instante: ");
+		builder.append(new SimpleDateFormat("dd/MM/yyyy hh:MM:ss").format(getInstante()));
+		builder.append(", Cliente: ");
+		builder.append(getCliente().getNome());
+		builder.append(", Situacao do pagamento: ");
+		builder.append(getPagamento().getEstado().getDescircao());
+		builder.append("\nDetalhes: \n");
+		for (ItemPedido itemPedido : itens) {
+			builder.append(itemPedido.toString());
+		}
+		builder.append("Valor total: ");
+		builder.append(nf.format(getValorTotal()));
+		return builder.toString();
+	}
+	
 	
 	
 }
