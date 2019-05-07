@@ -6,16 +6,19 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.cursomc.models.enums.Perfil;
 import com.cursomc.models.enums.TipoCliente;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -32,6 +35,9 @@ public class Cliente extends AbstracModel implements Serializable {
 	private String cpfOuCnpj;
 	private Integer tipo;
 
+	@JsonIgnore
+	private String senha;
+
 	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
 	private List<Endereco> enderecos = new ArrayList<>();
 
@@ -39,24 +45,30 @@ public class Cliente extends AbstracModel implements Serializable {
 	@CollectionTable(name = "telefone")
 	private Set<String> telefones = new HashSet<>();
 
+	@ElementCollection(fetch = FetchType.EAGER)
+	@CollectionTable(name = "perfis")
+	private Set<Integer> perfis = new HashSet<>();
+
 	@OneToMany(mappedBy = "cliente")
 	@JsonIgnore
 	private List<Pedido> pedidos = new ArrayList<>();
 
 	public Cliente() {
-		super();
+		addPerfis(Perfil.CLIENTE);
 	}
 
 	public Cliente(Integer id) {
 		this.id = id;
 	}
-	
-	public Cliente(Integer id, String nome, String email, String cpfOuCnpj, TipoCliente tipo) {
+
+	public Cliente(Integer id, String nome, String email, String cpfOuCnpj, TipoCliente tipo, String senha) {
+		addPerfis(Perfil.CLIENTE);
 		this.id = id;
 		this.nome = nome;
 		this.email = email;
 		this.cpfOuCnpj = cpfOuCnpj;
 		this.tipo = (Objects.isNull(tipo)) ? null : tipo.getCod();
+		this.senha = senha;
 	}
 
 	public List<Pedido> getPedidos() {
@@ -121,6 +133,22 @@ public class Cliente extends AbstracModel implements Serializable {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
+
+	public Set<Perfil> getPerfis() {
+		return perfis.stream().map(x->Perfil.toUnum(x)).collect(Collectors.toSet());
+	}
+
+	public void addPerfis(Perfil perfil) {
+		this.perfis.add(perfil.getCod());
 	}
 
 }

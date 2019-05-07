@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.cursomc.models.Categoria;
@@ -19,6 +20,7 @@ import com.cursomc.models.PagamentoComCartao;
 import com.cursomc.models.Pedido;
 import com.cursomc.models.Produto;
 import com.cursomc.models.enums.EstadoPagamento;
+import com.cursomc.models.enums.Perfil;
 import com.cursomc.models.enums.TipoCliente;
 import com.cursomc.repositories.CategoriaRepository;
 import com.cursomc.repositories.CidadeRepository;
@@ -50,6 +52,8 @@ public class DBService {
 	private PagamentoRepository pagamentoRepository;
 	@Autowired
 	private ItemPedidoRepository itemPedidoRepository;
+	@Autowired
+	private BCryptPasswordEncoder encoder;
 	
 	public void instantiateTesteDataBase() throws ParseException {
 
@@ -111,11 +115,12 @@ public class DBService {
 		estadoRepository.saveAll(Arrays.asList(est1,est2));
 		cidadeRepository.saveAll(Arrays.asList(c1,c2,c3));
 		
-		Cliente cli1 = new Cliente(null, "Maria Silva", "railson170@hotmail.com", "05763252527", TipoCliente.PESSOAFISICA);
+		Cliente cli1 = new Cliente(null, "Maria Silva", "railson170@hotmail.com", "05763252527", TipoCliente.PESSOAFISICA, encoder.encode("123"));
 		cli1.getTelefones().addAll(Arrays.asList("71982576778", "7133919350"));
 		
-		Cliente cli2 = new Cliente(null, "Railson Silva", "railson170@hotmail.com", "05763252527", TipoCliente.PESSOAJURIDICA);
+		Cliente cli2 = new Cliente(null, "Railson Silva", "railson170@hotmail.com", "05763252527", TipoCliente.PESSOAJURIDICA, encoder.encode("123"));
 		cli2.getTelefones().addAll(Arrays.asList("71982576778", "7133919350"));
+		cli2.addPerfis(Perfil.ADMIN);
 		//cli2.setId(3);
 		
 		Endereco e1 = new Endereco(null, "Rua Flores", "300", "Apto 303", "Jardim", "38220834", cli1, c1);
