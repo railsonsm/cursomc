@@ -1,5 +1,6 @@
 package com.cursomc.services;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -12,10 +13,10 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.cursomc.dto.ClienteDTO;
 import com.cursomc.dto.ClienteNewDTO;
-import com.cursomc.models.Categoria;
 import com.cursomc.models.Cidade;
 import com.cursomc.models.Cliente;
 import com.cursomc.models.Endereco;
@@ -33,6 +34,8 @@ public class ClienteService {
 	private EnderecoRepository eRepository;
 	@Autowired
 	private BCryptPasswordEncoder encoder;
+	@Autowired
+	private S3Service s3Service;
 	
 	public Cliente find(Integer id) {
 		Optional<Cliente> cliente = cRepository.findById(id);
@@ -91,5 +94,9 @@ public class ClienteService {
 	private void updateData(Cliente cliente, Cliente obj) {
 		cliente.setNome(obj.getNome());
 		cliente.setEmail(obj.getEmail());
+	}
+	
+	public URI uploadProfilePicture(MultipartFile multipartFile) {
+		return s3Service.uploadFile(multipartFile);
 	}
 }
