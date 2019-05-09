@@ -1,11 +1,13 @@
 package com.cursomc.services;
 
+import java.awt.image.BufferedImage;
 import java.net.URI;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -23,6 +25,8 @@ import com.cursomc.models.Endereco;
 import com.cursomc.models.enums.TipoCliente;
 import com.cursomc.repositories.ClienteRepository;
 import com.cursomc.repositories.EnderecoRepository;
+import com.cursomc.security.UserSS;
+import com.cursomc.services.exception.AuthorizationException;
 import com.cursomc.services.exception.DataIntegretyException;
 import com.cursomc.services.exception.ObjectNotFoundException;
 
@@ -36,7 +40,14 @@ public class ClienteService {
 	private BCryptPasswordEncoder encoder;
 	@Autowired
 	private S3Service s3Service;
+	@Autowired
+	private ImageService imageService;
 	
+	@Value("${img.prefix.client.profile}")
+	private String prefix;
+	@Value("${img.profile.size}")
+	private Integer size;
+
 	public Cliente find(Integer id) {
 		Optional<Cliente> cliente = cRepository.findById(id);
 		return cliente.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado! Id: " + id));
@@ -79,7 +90,8 @@ public class ClienteService {
 	}
 
 	public Cliente fromDTO(ClienteNewDTO dto) {
-		Cliente cliente = new Cliente(null, dto.getNome(), dto.getEmail(), dto.getCpfOuCnpj(), TipoCliente.toUnum(dto.getTipo()), encoder.encode(dto.getSenha()));
+		Cliente cliente = new Cliente(null, dto.getNome(), dto.getEmail(), dto.getCpfOuCnpj(), TipoCliente.toUnum(dto.getTipo()),
+				encoder.encode(dto.getSenha()));
 		Cidade cidade = new Cidade(dto.getCidadeId());
 		Endereco endereco = new Endereco(null, dto.getLogradouro(), dto.getNumero(), dto.getComplemento(), dto.getBairro(), dto.getCep(), cliente, cidade);
 		cliente.getEnderecos().add(endereco);
@@ -95,8 +107,17 @@ public class ClienteService {
 		cliente.setNome(obj.getNome());
 		cliente.setEmail(obj.getEmail());
 	}
-	
+
 	public URI uploadProfilePicture(MultipartFile multipartFile) {
-		return s3Service.uploadFile(multipartFile);
+		UserSS user = UserService.authenticated();
+		if (Objects.isNull(user))
+			throw new AuthorizationException("Acesso negado");
+		
+		BufferedImage bufferedImage  = imageService.getJpgImageFromFile(multipartFile);
+		bufferedImage = imageService.cropSquare(bufferedImage);
+		bufferedImage = imageService.resize(bufferedImage, size);
+		
+		String filename = prefix + user.getId() + ".jpg";
+		return s3Service.uploadFile(imageService.getInputStream(bufferedImage, "jpg"), filename, "image");
 	}
 }

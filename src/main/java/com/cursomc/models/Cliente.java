@@ -53,6 +53,7 @@ public class Cliente extends AbstracModel implements Serializable {
 	@JsonIgnore
 	private List<Pedido> pedidos = new ArrayList<>();
 
+
 	public Cliente() {
 		addPerfis(Perfil.CLIENTE);
 	}
@@ -150,5 +151,7 @@ public class Cliente extends AbstracModel implements Serializable {
 	public void addPerfis(Perfil perfil) {
 		this.perfis.add(perfil.getCod());
 	}
+
+	
 
 }
