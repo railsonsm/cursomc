@@ -79,6 +79,13 @@ public class ClienteService {
 	public List<Cliente> findAll() {
 		return cRepository.findAll();
 	}
+	
+	public Cliente findByEmail(String email) {
+		UserSS user = UserService.authenticated();
+		if(Objects.isNull(user) || !email.equals(user.getUsername()))
+			throw new AuthorizationException("Acesso negado");
+		return cRepository.findByEmail(email);
+	}
 
 	public Page<Cliente> findPage(Integer page, Integer size, String orderby, String direction) {
 		PageRequest pageRequest = PageRequest.of(page, size, Direction.valueOf(direction), orderby);

@@ -32,17 +32,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	private static final String[] PUBLIC_MATHERS = { "/h2-console/**" };
 
-	private static final String[] PUBLIC_MATHERS_GET = { "/produtos/**", "/categorias/**" };
+	private static final String[] PUBLIC_MATHERS_GET = { "/produtos/**", "/categorias/**", "/estados/**" };
 	
 	private static final String[] PUBLIC_MATHERS_POST = { "/clientes", "/auth/forgot/**" };
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.cors().and().csrf().disable().authorizeRequests()
-		.antMatchers(HttpMethod.POST, PUBLIC_MATHERS_POST)
-		.permitAll().anyRequest().authenticated()
-		.antMatchers(HttpMethod.GET, PUBLIC_MATHERS_GET)
-				.permitAll().anyRequest().authenticated();
+		.antMatchers(HttpMethod.POST, PUBLIC_MATHERS_POST).permitAll()
+		.antMatchers(HttpMethod.GET, PUBLIC_MATHERS_GET).permitAll()
+		.anyRequest().authenticated();
 		http.addFilter(new JWTAuthenticationFilter(authenticationManager(), jwtUtil));
 		http.addFilter(new JWTAuthorizationFilter(authenticationManager(), jwtUtil, userDetailsService));
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
