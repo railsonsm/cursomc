@@ -32,9 +32,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private JWTUtil jwtUtil;
 
-	private static final String[] PUBLIC_MATHERS = { "/h2-console/**" };
+	private static final String[] PUBLIC_MATHERS = { "/h2-console/**",  };
 
-	private static final String[] PUBLIC_MATHERS_GET = { "/produtos/**", "/categorias/**", "/estados/**" };
+	private static final String[] PUBLIC_MATHERS_GET = { "/**","/produtos/**","/clientes/**", "/categorias/**", "/estados/**" };
 	
 	private static final String[] PUBLIC_MATHERS_POST = { "/clientes", "/auth/forgot/**" };
 

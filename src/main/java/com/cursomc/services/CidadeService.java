@@ -16,6 +16,8 @@ public class CidadeService {
 	private CidadeRepository cidadeRepository;
 	
 	public List<CidadeDTO> findByEstado(Integer estadoId){
+		
+		
 		List<Cidade> list = cidadeRepository.findAllByEstadoIdOrderByNome(estadoId);
 		List<CidadeDTO> response = list.stream().map(c->new CidadeDTO(c)).collect(Collectors.toList());
 		return response;

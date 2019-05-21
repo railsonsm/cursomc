@@ -25,6 +25,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.cursomc.dto.ClienteDTO;
 import com.cursomc.dto.ClienteNewDTO;
 import com.cursomc.models.Cliente;
+import com.cursomc.resources.utils.URL;
 import com.cursomc.services.ClienteService;
 
 @RestController
@@ -37,6 +38,12 @@ public class ClienteResource {
 	public ResponseEntity<?> find(@PathVariable Integer id) {
 		Cliente cliente = clienteService.find(id);
 		return ResponseEntity.ok().body(cliente);
+	}
+	
+	@GetMapping("/teste")
+	public void find1(String id) {
+		String eteste = URL.decoceParam(id);
+		System.out.println(eteste);
 	}
 	
 	@GetMapping("/email")
