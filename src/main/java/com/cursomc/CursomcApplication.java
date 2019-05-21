@@ -11,9 +11,7 @@ import com.cursomc.services.S3Service;
 
 @SpringBootApplication
 public class CursomcApplication implements CommandLineRunner {
-	@Autowired
-	private S3Service s3Services;
-
+	
 	@InitBinder
 	private void activateDirectFieldAccess(DataBinder dataBinder) {
 		dataBinder.initDirectFieldAccess();
